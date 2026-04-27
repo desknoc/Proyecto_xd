@@ -1,26 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo</title>
+    <meta name="description" content="Gestión de contactos — Aplicación CRUD con Supabase. Crea, consulta, edita y elimina contactos.">
+    <title>Gestión de Contactos — CRUD</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Hola mundo</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero iste soluta consectetur architecto veniam at,
-        numquam quos incidunt aliquid minima ratione. Maiores debitis cum quia inventore harum nobis consequatur
-        suscipit.</p>
 
-    <center>
-        <button
-            style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;"><a
-                href="https://www.google.com" style="text-decoration: none; color: white;">Ingresa a google</a></button>
-    </center>
-    <br>
-    <br>
-    <h1>Segundo despliegue!!</h1>
+    <!-- Contenedor de Toasts -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Contenido principal -->
+    <main class="container">
+
+        <!-- Encabezado -->
+        <header class="header">
+            <h1>📇 Gestión de Contactos</h1>
+            <p>Crea, edita y administra tus contactos fácilmente</p>
+        </header>
+
+        <!-- Formulario -->
+        <section class="form-card">
+            <h2><span class="icon">📝</span> Nuevo Contacto</h2>
+            <form id="contact-form" class="form-grid" autocomplete="off">
+                <input type="hidden" id="contact-id">
+
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Ej: Juan Pablo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" placeholder="Ej: García" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" placeholder="Ej: correo@ejemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Ej: 300 123 4567" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btn-submit">
+                        <span id="btn-submit-text">💾 Guardar</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-cancel" style="display: none;">
+                        ✖ Cancelar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabla de contactos -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2><span class="icon">📋</span> Contactos Registrados</h2>
+                <span class="record-count" id="record-count">0 registros</span>
+            </div>
+
+            <!-- Loader -->
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Cargando contactos...</p>
+            </div>
+
+            <!-- Tabla -->
+            <div class="table-wrapper" id="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Los registros se llenan dinámicamente con JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Estado vacío -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <p>No hay contactos registrados aún.<br>¡Agrega el primero usando el formulario de arriba!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de confirmación de eliminación -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-icon">⚠️</div>
+            <h3>¿Eliminar contacto?</h3>
+            <p>Estás a punto de eliminar a <strong id="modal-contact-name"></strong>. Esta acción no se puede deshacer.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-modal-cancel">Cancelar</button>
+                <button class="btn btn-delete" id="btn-modal-confirm" style="padding: 12px 24px; font-size: 0.9rem;">
+                    🗑️ Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Lógica de la aplicación -->
+    <script src="app.js"></script>
+
 </body>
 
 </html>
